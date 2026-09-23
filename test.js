@@ -15,5 +15,6 @@ assertEqual(catalog.isValidLoan(-1), false, 'a negative days-late value is inval
 
 const fee = catalog.calculateLateFee(5, 2.5);
 assertEqual(fee, 13, 'late fee is rounded to nearest dollar');
+assertEqual(catalog.calculateLateFee(1, 2.25), 0, '1-day grace period has no fee');
 
 process.exitCode = failures > 0 ? 1 : 0;
