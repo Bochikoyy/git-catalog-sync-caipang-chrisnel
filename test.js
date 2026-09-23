@@ -13,7 +13,10 @@ function assertEqual(actual, expected, label) {
 assertEqual(catalog.isValidLoan(3), true, 'a positive days-late value is valid');
 assertEqual(catalog.isValidLoan(-1), false, 'a negative days-late value is invalid');
 
-const fee = catalog.calculateLateFee(5, 2.25);
-assertEqual(fee, 11, 'late fee for 5 days at $2.25/day');
+const fee = catalog.calculateLateFee(5, 2.5);
+assertEqual(fee, 13, 'late fee is rounded to nearest dollar');
+assertEqual(catalog.calculateLateFee(1, 2.25), 0, '1-day grace period has no fee');
+assertEqual(catalog.calculateLateFee(15, 2), 20, 'late fee is capped at $20');
+assertEqual(catalog.calculateLateFee(2, 0.2), 1, 'late fee has a $1 minimum after grace period');
 
 process.exitCode = failures > 0 ? 1 : 0;
